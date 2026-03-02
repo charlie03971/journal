@@ -674,13 +674,13 @@ let curFilter = 'all';
 let curView   = 'entries'; // 'entries' | 'trash'
 
 function load() {
-  try { entries = JSON.parse(localStorage.getItem('trj5_e') || '[]'); } catch { entries = []; }
-  try { trash   = JSON.parse(localStorage.getItem('trj5_t') || '[]'); } catch { trash = []; }
+  try { entries = JSON.parse(localStorage.getItem('trj4')   || '[]'); } catch { entries = []; }
+  try { trash   = JSON.parse(localStorage.getItem('trj4_t') || '[]'); } catch { trash = []; }
 }
 function persist() {
   try {
-    localStorage.setItem('trj5_e', JSON.stringify(entries));
-    localStorage.setItem('trj5_t', JSON.stringify(trash));
+    localStorage.setItem('trj4',   JSON.stringify(entries));
+    localStorage.setItem('trj4_t', JSON.stringify(trash));
   } catch {}
 }
 
