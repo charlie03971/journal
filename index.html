@@ -17,6 +17,7 @@
   --gold:       #b8832a;
   --gold-light: #e4b86a;
   --red:        #c0392b;
+  --red-bg:     #fdf0ee;
   --case:       #2e7d52;
   --case-bg:    #eaf4ee;
   --idea:       #1a5fa0;
@@ -39,13 +40,9 @@ body {
   overflow: hidden;
 }
 
-.app {
-  display: flex;
-  height: 100vh;
-  overflow: hidden;
-}
+.app { display: flex; height: 100vh; overflow: hidden; }
 
-/* ── LEFT: WRITE PANEL ── */
+/* ── LEFT PANEL ── */
 .write-panel {
   width: var(--sidebar-w);
   flex-shrink: 0;
@@ -59,33 +56,11 @@ body {
   z-index: 2;
 }
 
-.panel-head {
-  padding: 22px 22px 14px;
-  border-bottom: 1px solid var(--paper3);
-}
+.panel-head { padding: 22px 22px 14px; border-bottom: 1px solid var(--paper3); }
 
-.logo {
-  font-family: 'Zen Antique Soft', serif;
-  font-size: 1.2rem;
-  color: var(--ink);
-  letter-spacing: 0.14em;
-}
-
-.logo-en {
-  font-size: 0.58rem;
-  letter-spacing: 0.24em;
-  color: var(--ink-faint);
-  font-weight: 300;
-  margin-top: 4px;
-}
-
-.today-date {
-  font-size: 0.68rem;
-  color: var(--gold);
-  margin-top: 10px;
-  letter-spacing: 0.05em;
-  font-weight: 300;
-}
+.logo { font-family: 'Zen Antique Soft', serif; font-size: 1.2rem; color: var(--ink); letter-spacing: 0.14em; }
+.logo-en { font-size: 0.58rem; letter-spacing: 0.24em; color: var(--ink-faint); font-weight: 300; margin-top: 4px; }
+.today-date { font-size: 0.68rem; color: var(--gold); margin-top: 10px; letter-spacing: 0.05em; font-weight: 300; }
 
 .tag-row {
   padding: 14px 18px 0;
@@ -107,11 +82,10 @@ body {
   text-align: center;
   line-height: 1.3;
 }
-
-.tag-btn[data-t="case"].on   { background: var(--case-bg); border-color: var(--case); color: var(--case); font-weight: 500; }
-.tag-btn[data-t="idea"].on   { background: var(--idea-bg); border-color: var(--idea); color: var(--idea); font-weight: 500; }
+.tag-btn[data-t="case"].on   { background: var(--case-bg);   border-color: var(--case);   color: var(--case);   font-weight: 500; }
+.tag-btn[data-t="idea"].on   { background: var(--idea-bg);   border-color: var(--idea);   color: var(--idea);   font-weight: 500; }
 .tag-btn[data-t="vision"].on { background: var(--vision-bg); border-color: var(--vision); color: var(--vision); font-weight: 500; }
-.tag-btn[data-t="fb"].on     { background: var(--fb-bg); border-color: var(--fb); color: var(--fb); font-weight: 500; }
+.tag-btn[data-t="fb"].on     { background: var(--fb-bg);     border-color: var(--fb);     color: var(--fb);     font-weight: 500; }
 
 .memo-wrap {
   flex: 1;
@@ -138,12 +112,7 @@ body {
   background-image: repeating-linear-gradient(transparent, transparent 29px, rgba(184,131,42,0.08) 30px);
   background-attachment: local;
 }
-
-.memo-area:focus {
-  border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(184,131,42,0.1);
-}
-
+.memo-area:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,131,42,0.1); }
 .memo-area::placeholder { color: var(--ink-ghost); font-style: italic; font-size: 0.88rem; }
 
 .save-zone {
@@ -153,10 +122,7 @@ body {
   align-items: center;
 }
 
-.char-count {
-  font-size: 0.65rem;
-  color: var(--ink-ghost);
-}
+.char-count { font-size: 0.65rem; color: var(--ink-ghost); }
 
 .save-btn {
   padding: 11px 30px;
@@ -171,19 +137,41 @@ body {
   letter-spacing: 0.1em;
   transition: all 0.15s;
 }
-
-.save-btn:hover { background: var(--gold); color: white; }
+.save-btn:hover { background: var(--gold); }
 .save-btn:active { transform: scale(0.97); }
 
-.shortcut-hint {
-  text-align: center;
-  font-size: 0.6rem;
-  color: var(--ink-ghost);
-  padding-bottom: 10px;
-  letter-spacing: 0.05em;
-}
+.shortcut-hint { text-align: center; font-size: 0.6rem; color: var(--ink-ghost); padding-bottom: 10px; letter-spacing: 0.05em; }
 
-/* ── RIGHT: FEED PANEL ── */
+/* Trash tab in sidebar */
+.trash-tab {
+  margin: 0 18px 14px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1.5px solid var(--paper3);
+  background: none;
+  font-family: inherit;
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.15s;
+}
+.trash-tab:hover { border-color: var(--red); color: var(--red); background: var(--red-bg); }
+.trash-tab.open  { border-color: var(--red); color: var(--red); background: var(--red-bg); }
+.trash-count {
+  background: var(--red);
+  color: white;
+  font-size: 0.62rem;
+  padding: 1px 7px;
+  border-radius: 10px;
+  font-weight: 500;
+  display: none;
+}
+.trash-count.visible { display: inline; }
+
+/* ── RIGHT PANEL ── */
 .feed-panel {
   flex: 1;
   display: flex;
@@ -192,8 +180,46 @@ body {
   background: var(--paper2);
 }
 
+/* View toggle: entries / trash */
+.view-toggle {
+  display: flex;
+  border-bottom: 1px solid var(--paper3);
+  background: var(--paper);
+}
+
+.view-tab {
+  flex: 1;
+  padding: 11px 8px;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+  color: var(--ink-faint);
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.view-tab.on { color: var(--ink); border-bottom-color: var(--gold); background: var(--paper); font-weight: 500; }
+.view-tab.trash-vt.on { border-bottom-color: var(--red); color: var(--red); }
+
+.trash-badge {
+  background: var(--red);
+  color: white;
+  font-size: 0.6rem;
+  padding: 1px 6px;
+  border-radius: 8px;
+  font-weight: 600;
+  display: none;
+}
+.trash-badge.visible { display: inline; }
+
 .feed-head {
-  padding: 16px 24px 12px;
+  padding: 14px 22px 10px;
   border-bottom: 1px solid var(--paper3);
   display: flex;
   gap: 10px;
@@ -218,11 +244,7 @@ body {
 .search-box:focus { border-color: var(--gold); }
 .search-box::placeholder { color: var(--ink-ghost); }
 
-.chips {
-  display: flex;
-  gap: 5px;
-  flex-wrap: wrap;
-}
+.chips { display: flex; gap: 5px; flex-wrap: wrap; }
 
 .chip {
   padding: 5px 12px;
@@ -236,50 +258,45 @@ body {
   transition: all 0.15s;
   letter-spacing: 0.03em;
 }
-
 .chip.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 
-/* Stats */
-.stats-row {
-  display: flex;
+/* Trash actions bar */
+.trash-actions {
+  padding: 10px 22px;
   border-bottom: 1px solid var(--paper3);
-  background: white;
+  background: var(--red-bg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+.trash-info { font-size: 0.72rem; color: var(--ink-faint); }
+.btn-empty-trash {
+  padding: 7px 16px;
+  border: 1.5px solid var(--red);
+  border-radius: 16px;
+  background: none;
+  color: var(--red);
+  font-family: inherit;
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-weight: 500;
+}
+.btn-empty-trash:hover { background: var(--red); color: white; }
 
-.stat {
-  flex: 1;
-  padding: 10px 6px;
-  text-align: center;
-  border-right: 1px solid var(--paper3);
-}
+/* Stats */
+.stats-row { display: flex; border-bottom: 1px solid var(--paper3); background: white; }
+.stat { flex: 1; padding: 10px 6px; text-align: center; border-right: 1px solid var(--paper3); }
 .stat:last-child { border-right: none; }
-
-.stat-num {
-  font-family: 'Zen Antique Soft', serif;
-  font-size: 1.5rem;
-  color: var(--gold);
-  display: block;
-  line-height: 1.1;
-}
-
-.stat-lbl {
-  font-size: 0.58rem;
-  color: var(--ink-faint);
-  letter-spacing: 0.08em;
-  margin-top: 2px;
-}
+.stat-num { font-family: 'Zen Antique Soft', serif; font-size: 1.5rem; color: var(--gold); display: block; line-height: 1.1; }
+.stat-lbl { font-size: 0.58rem; color: var(--ink-faint); letter-spacing: 0.08em; margin-top: 2px; }
 
 /* Feed list */
-.feed-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 14px 22px 22px;
-}
-
+.feed-list { flex: 1; overflow-y: auto; padding: 14px 22px 22px; }
 .feed-list::-webkit-scrollbar { width: 4px; }
 .feed-list::-webkit-scrollbar-thumb { background: var(--ink-ghost); border-radius: 2px; }
 
-/* Entry */
+/* Entry card */
 .entry {
   background: white;
   border-radius: var(--radius);
@@ -290,61 +307,42 @@ body {
   transition: box-shadow 0.2s;
   animation: fadeUp 0.2s ease;
 }
-
-@keyframes fadeUp {
-  from { opacity:0; transform: translateY(5px); }
-  to   { opacity:1; transform: none; }
-}
+@keyframes fadeUp { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:none; } }
 
 .entry:hover { box-shadow: 0 3px 14px rgba(44,36,24,0.09); }
-
 .entry.case   { border-left-color: var(--case); }
 .entry.idea   { border-left-color: var(--idea); }
 .entry.vision { border-left-color: var(--vision); }
 .entry.fb     { border-left-color: var(--fb); }
+.entry.trashed { border-left-color: var(--red); opacity: 0.8; background: var(--red-bg); }
 
-.entry-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
+.entry-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 
-.badge {
-  font-size: 0.6rem;
-  padding: 2px 9px;
-  border-radius: 10px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-}
-.entry.case   .badge { background: var(--case-bg); color: var(--case); }
-.entry.idea   .badge { background: var(--idea-bg); color: var(--idea); }
+.badge { font-size: 0.6rem; padding: 2px 9px; border-radius: 10px; font-weight: 500; letter-spacing: 0.04em; }
+.entry.case   .badge { background: var(--case-bg);   color: var(--case); }
+.entry.idea   .badge { background: var(--idea-bg);   color: var(--idea); }
 .entry.vision .badge { background: var(--vision-bg); color: var(--vision); }
-.entry.fb     .badge { background: var(--fb-bg); color: var(--fb); }
+.entry.fb     .badge { background: var(--fb-bg);     color: var(--fb); }
+.entry.trashed .badge { background: #fde8e6; color: var(--red); }
 
-.entry-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+.entry-meta { display: flex; align-items: center; gap: 6px; }
+.entry-date { font-size: 0.6rem; color: var(--ink-ghost); }
 
-.entry-date {
-  font-size: 0.6rem;
-  color: var(--ink-ghost);
-}
-
-.del-btn {
+.icon-btn {
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--ink-ghost);
-  font-size: 0.72rem;
-  padding: 1px 3px;
+  font-size: 0.8rem;
+  padding: 2px 4px;
   opacity: 0;
-  transition: opacity 0.15s, color 0.15s;
+  transition: opacity 0.15s;
+  color: var(--ink-ghost);
+  border-radius: 4px;
 }
-.entry:hover .del-btn { opacity: 1; }
-.del-btn:hover { color: var(--red); }
+.entry:hover .icon-btn { opacity: 1; }
+.icon-btn:hover { background: var(--paper2); }
+.icon-btn.restore:hover { color: var(--case); }
+.icon-btn.perma-del:hover { color: var(--red); }
 
 .entry-text {
   font-family: 'Noto Serif JP', serif;
@@ -354,32 +352,16 @@ body {
   white-space: pre-wrap;
   word-break: break-word;
 }
+.entry.trashed .entry-text { color: var(--ink-faint); }
+
+.deleted-date { font-size: 0.6rem; color: var(--red); margin-top: 6px; opacity: 0.7; }
 
 /* Empty */
-.empty {
-  text-align: center;
-  padding: 60px 32px;
-  color: var(--ink-faint);
-  line-height: 2.8;
-}
-.empty-icon { font-size: 2.2rem; display: block; opacity: 0.45; margin-bottom: 4px; }
+.empty { text-align: center; padding: 60px 32px; color: var(--ink-faint); line-height: 2.8; }
+.empty-icon { font-size: 2.2rem; display: block; opacity: 0.4; margin-bottom: 4px; }
 .empty-text { font-size: 0.83rem; font-family: 'Noto Serif JP', serif; }
 
-/* Edit / Delete buttons on entry */
-.edit-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--ink-ghost);
-  font-size: 0.72rem;
-  padding: 1px 3px;
-  opacity: 0;
-  transition: opacity 0.15s, color 0.15s;
-}
-.entry:hover .edit-btn { opacity: 1; }
-.edit-btn:hover { color: var(--gold); }
-
-/* Modal overlay */
+/* ── MODALS ── */
 .modal-overlay {
   display: none;
   position: fixed;
@@ -403,11 +385,7 @@ body {
   gap: 14px;
   animation: modalIn 0.2s ease;
 }
-
-@keyframes modalIn {
-  from { opacity:0; transform: scale(0.96) translateY(8px); }
-  to   { opacity:1; transform: none; }
-}
+@keyframes modalIn { from { opacity:0; transform:scale(0.96) translateY(8px); } to { opacity:1; transform:none; } }
 
 .modal-title {
   font-family: 'Zen Antique Soft', serif;
@@ -418,11 +396,7 @@ body {
   padding-bottom: 10px;
 }
 
-.modal-tag-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
-}
+.modal-tag-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; }
 
 .modal-tag {
   padding: 7px 4px;
@@ -436,11 +410,10 @@ body {
   transition: all 0.15s;
   text-align: center;
 }
-
-.modal-tag[data-t="case"].on   { background: var(--case-bg); border-color: var(--case); color: var(--case); font-weight: 500; }
-.modal-tag[data-t="idea"].on   { background: var(--idea-bg); border-color: var(--idea); color: var(--idea); font-weight: 500; }
-.modal-tag[data-t="vision"].on { background: var(--vision-bg); border-color: var(--vision); color: var(--vision); font-weight: 500; }
-.modal-tag[data-t="fb"].on     { background: var(--fb-bg); border-color: var(--fb); color: var(--fb); font-weight: 500; }
+.modal-tag[data-t="case"].on   { background: var(--case-bg);   border-color: var(--case);   color: var(--case);   font-weight:500; }
+.modal-tag[data-t="idea"].on   { background: var(--idea-bg);   border-color: var(--idea);   color: var(--idea);   font-weight:500; }
+.modal-tag[data-t="vision"].on { background: var(--vision-bg); border-color: var(--vision); color: var(--vision); font-weight:500; }
+.modal-tag[data-t="fb"].on     { background: var(--fb-bg);     border-color: var(--fb);     color: var(--fb);     font-weight:500; }
 
 .modal-textarea {
   width: 100%;
@@ -461,11 +434,7 @@ body {
 }
 .modal-textarea:focus { border-color: var(--gold); }
 
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-}
+.modal-actions { display: flex; justify-content: flex-end; gap: 8px; }
 
 .btn-cancel {
   padding: 10px 22px;
@@ -480,7 +449,7 @@ body {
 }
 .btn-cancel:hover { border-color: var(--ink-mid); color: var(--ink); }
 
-.btn-save-edit {
+.btn-primary {
   padding: 10px 26px;
   border: none;
   border-radius: 20px;
@@ -493,10 +462,10 @@ body {
   letter-spacing: 0.08em;
   transition: all 0.15s;
 }
-.btn-save-edit:hover { background: var(--gold); }
+.btn-primary:hover { background: var(--gold); }
 
-/* Delete confirm modal */
-.del-modal {
+/* Confirm modal */
+.confirm-modal {
   background: var(--paper);
   border-radius: 14px;
   padding: 28px;
@@ -505,14 +474,12 @@ body {
   text-align: center;
   animation: modalIn 0.2s ease;
 }
+.cm-icon  { font-size: 2rem; margin-bottom: 10px; }
+.cm-title { font-family: 'Zen Antique Soft', serif; font-size: 1rem; margin-bottom: 8px; letter-spacing: 0.08em; }
+.cm-sub   { font-size: 0.78rem; color: var(--ink-faint); line-height: 1.7; margin-bottom: 20px; }
+.cm-actions { display: flex; gap: 8px; justify-content: center; }
 
-.del-modal-icon { font-size: 2rem; margin-bottom: 10px; }
-.del-modal-title { font-family: 'Zen Antique Soft', serif; font-size: 1rem; margin-bottom: 8px; letter-spacing: 0.08em; }
-.del-modal-sub { font-size: 0.78rem; color: var(--ink-faint); line-height: 1.7; margin-bottom: 20px; }
-
-.del-modal-actions { display: flex; gap: 8px; justify-content: center; }
-
-.btn-del-confirm {
+.btn-danger {
   padding: 10px 24px;
   border: none;
   border-radius: 20px;
@@ -524,7 +491,7 @@ body {
   cursor: pointer;
   transition: opacity 0.15s;
 }
-.btn-del-confirm:hover { opacity: 0.85; }
+.btn-danger:hover { opacity: 0.85; }
 
 /* Toast */
 .toast {
@@ -553,14 +520,14 @@ body {
   .write-panel { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--paper3); }
   .memo-area { min-height: 120px; flex: none; }
   .feed-panel { overflow: visible; }
-  .feed-list { overflow: visible; }
+  .feed-list  { overflow: visible; }
 }
 </style>
 </head>
 <body>
 <div class="app">
 
-  <!-- LEFT: WRITE -->
+  <!-- ═══ LEFT: WRITE ═══ -->
   <div class="write-panel">
     <div class="panel-head">
       <div class="logo">治療家ジャーナル</div>
@@ -589,24 +556,44 @@ body {
     <div class="shortcut-hint">⌘ + Enter でも保存できます</div>
   </div>
 
-  <!-- RIGHT: FEED -->
+  <!-- ═══ RIGHT: FEED ═══ -->
   <div class="feed-panel">
-    <div class="feed-head">
-      <input class="search-box" type="search" placeholder="🔍 記録を検索..." oninput="render()">
-      <div class="chips">
-        <button class="chip on" data-f="all"    onclick="setFilter(this)">すべて</button>
-        <button class="chip"    data-f="case"   onclick="setFilter(this)">症例</button>
-        <button class="chip"    data-f="idea"   onclick="setFilter(this)">アイデア</button>
-        <button class="chip"    data-f="vision" onclick="setFilter(this)">ビジョン</button>
-        <button class="chip"    data-f="fb"     onclick="setFilter(this)">患者の声</button>
+
+    <!-- View toggle tabs -->
+    <div class="view-toggle">
+      <button class="view-tab on"      id="vtEntries" onclick="switchView('entries')">📋　記録一覧</button>
+      <button class="view-tab trash-vt" id="vtTrash"   onclick="switchView('trash')">
+        🗑️　ゴミ箱
+        <span class="trash-badge" id="trashBadge"></span>
+      </button>
+    </div>
+
+    <!-- Entries view header -->
+    <div id="entriesHead">
+      <div class="feed-head">
+        <input class="search-box" id="searchBox" type="search" placeholder="🔍 記録を検索..." oninput="render()">
+        <div class="chips">
+          <button class="chip on" data-f="all"    onclick="setFilter(this)">すべて</button>
+          <button class="chip"    data-f="case"   onclick="setFilter(this)">症例</button>
+          <button class="chip"    data-f="idea"   onclick="setFilter(this)">アイデア</button>
+          <button class="chip"    data-f="vision" onclick="setFilter(this)">ビジョン</button>
+          <button class="chip"    data-f="fb"     onclick="setFilter(this)">患者の声</button>
+        </div>
+      </div>
+      <div class="stats-row">
+        <div class="stat"><span class="stat-num" id="sAll">0</span><div class="stat-lbl">総記録数</div></div>
+        <div class="stat"><span class="stat-num" id="sCase">0</span><div class="stat-lbl">症例</div></div>
+        <div class="stat"><span class="stat-num" id="sIdea">0</span><div class="stat-lbl">アイデア</div></div>
+        <div class="stat"><span class="stat-num" id="sDays">0</span><div class="stat-lbl">記録日数</div></div>
       </div>
     </div>
 
-    <div class="stats-row">
-      <div class="stat"><span class="stat-num" id="sAll">0</span><div class="stat-lbl">総記録数</div></div>
-      <div class="stat"><span class="stat-num" id="sCase">0</span><div class="stat-lbl">症例</div></div>
-      <div class="stat"><span class="stat-num" id="sIdea">0</span><div class="stat-lbl">アイデア</div></div>
-      <div class="stat"><span class="stat-num" id="sDays">0</span><div class="stat-lbl">記録日数</div></div>
+    <!-- Trash view header -->
+    <div id="trashHead" style="display:none;">
+      <div class="trash-actions">
+        <span class="trash-info" id="trashInfo">ゴミ箱は空です</span>
+        <button class="btn-empty-trash" onclick="openEmptyTrash()">すべて完全削除</button>
+      </div>
     </div>
 
     <div class="feed-list" id="feedList"></div>
@@ -614,7 +601,7 @@ body {
 </div>
 
 <!-- Edit Modal -->
-<div class="modal-overlay" id="editOverlay" onclick="closeEdit(event)">
+<div class="modal-overlay" id="editOverlay" onclick="overlayClick(event,'editOverlay',closeEditModal)">
   <div class="modal">
     <div class="modal-title">✏️　記録を編集する</div>
     <div class="modal-tag-row">
@@ -626,20 +613,46 @@ body {
     <textarea class="modal-textarea" id="editTextarea" rows="7"></textarea>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeEditModal()">キャンセル</button>
-      <button class="btn-save-edit" onclick="saveEdit()">変更を保存</button>
+      <button class="btn-primary" onclick="saveEdit()">変更を保存</button>
     </div>
   </div>
 </div>
 
-<!-- Delete Confirm Modal -->
-<div class="modal-overlay" id="delOverlay" onclick="closeDelModal(event)">
-  <div class="del-modal">
-    <div class="del-modal-icon">🗑️</div>
-    <div class="del-modal-title">この記録を削除しますか？</div>
-    <div class="del-modal-sub">削除した記録は元に戻せません。</div>
-    <div class="del-modal-actions">
+<!-- Move to Trash confirm -->
+<div class="modal-overlay" id="delOverlay" onclick="overlayClick(event,'delOverlay',closeDelModal)">
+  <div class="confirm-modal">
+    <div class="cm-icon">🗑️</div>
+    <div class="cm-title">ゴミ箱に移動しますか？</div>
+    <div class="cm-sub">ゴミ箱から戻すことができます。<br>完全に消去するにはゴミ箱から削除してください。</div>
+    <div class="cm-actions">
       <button class="btn-cancel" onclick="closeDelModal()">キャンセル</button>
-      <button class="btn-del-confirm" onclick="confirmDel()">削除する</button>
+      <button class="btn-danger" onclick="confirmMoveToTrash()">ゴミ箱へ移動</button>
+    </div>
+  </div>
+</div>
+
+<!-- Permanent delete confirm -->
+<div class="modal-overlay" id="permDelOverlay" onclick="overlayClick(event,'permDelOverlay',closePermDel)">
+  <div class="confirm-modal">
+    <div class="cm-icon">⚠️</div>
+    <div class="cm-title">完全に削除しますか？</div>
+    <div class="cm-sub">この操作は元に戻せません。</div>
+    <div class="cm-actions">
+      <button class="btn-cancel" onclick="closePermDel()">キャンセル</button>
+      <button class="btn-danger" onclick="confirmPermDel()">完全に削除</button>
+    </div>
+  </div>
+</div>
+
+<!-- Empty trash confirm -->
+<div class="modal-overlay" id="emptyTrashOverlay" onclick="overlayClick(event,'emptyTrashOverlay',closeEmptyTrash)">
+  <div class="confirm-modal">
+    <div class="cm-icon">🗑️</div>
+    <div class="cm-title">ゴミ箱を空にしますか？</div>
+    <div class="cm-sub">ゴミ箱内のすべての記録が完全に削除されます。<br>この操作は元に戻せません。</div>
+    <div class="cm-actions">
+      <button class="btn-cancel" onclick="closeEmptyTrash()">キャンセル</button>
+      <button class="btn-danger" onclick="confirmEmptyTrash()">すべて削除</button>
     </div>
   </div>
 </div>
@@ -654,13 +667,24 @@ const TAG = {
   fb:     { label: '患者の声',   cls: 'fb' },
 };
 
-let entries = [];
-let curTag = 'case';
+let entries = [];   // active entries
+let trash   = [];   // trashed entries
+let curTag    = 'case';
 let curFilter = 'all';
+let curView   = 'entries'; // 'entries' | 'trash'
 
-function load()    { try { entries = JSON.parse(localStorage.getItem('trj4') || '[]'); } catch { entries = []; } }
-function persist() { try { localStorage.setItem('trj4', JSON.stringify(entries)); } catch {} }
+function load() {
+  try { entries = JSON.parse(localStorage.getItem('trj5_e') || '[]'); } catch { entries = []; }
+  try { trash   = JSON.parse(localStorage.getItem('trj5_t') || '[]'); } catch { trash = []; }
+}
+function persist() {
+  try {
+    localStorage.setItem('trj5_e', JSON.stringify(entries));
+    localStorage.setItem('trj5_t', JSON.stringify(trash));
+  } catch {}
+}
 
+// ── DATE ──
 function setDate() {
   const d = new Date();
   document.getElementById('todayDate').textContent =
@@ -670,6 +694,7 @@ function setDate() {
 setDate();
 setInterval(setDate, 30000);
 
+// ── TAG ──
 function selTag(btn) {
   document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
@@ -684,6 +709,7 @@ function handleKey(e) {
   if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); saveEntry(); }
 }
 
+// ── SAVE ──
 function saveEntry() {
   const text = document.getElementById('memoArea').value.trim();
   if (!text) { toast('文字を入力してください'); return; }
@@ -695,10 +721,21 @@ function saveEntry() {
   toast('保存しました ✓');
 }
 
+// ── FILTER ──
 function setFilter(btn) {
   document.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
   btn.classList.add('on');
   curFilter = btn.dataset.f;
+  render();
+}
+
+// ── VIEW SWITCH ──
+function switchView(v) {
+  curView = v;
+  document.getElementById('vtEntries').classList.toggle('on', v === 'entries');
+  document.getElementById('vtTrash').classList.toggle('on',   v === 'trash');
+  document.getElementById('entriesHead').style.display = v === 'entries' ? '' : 'none';
+  document.getElementById('trashHead').style.display   = v === 'trash'   ? '' : 'none';
   render();
 }
 
@@ -709,12 +746,10 @@ let editModalTag = 'case';
 function openEdit(id) {
   const e = entries.find(e => e.id === id);
   if (!e) return;
-  editingId = id;
+  editingId    = id;
   editModalTag = e.type;
   document.getElementById('editTextarea').value = e.text;
-  document.querySelectorAll('.modal-tag').forEach(b => {
-    b.classList.toggle('on', b.dataset.t === e.type);
-  });
+  document.querySelectorAll('.modal-tag').forEach(b => b.classList.toggle('on', b.dataset.t === e.type));
   document.getElementById('editOverlay').classList.add('open');
   setTimeout(() => document.getElementById('editTextarea').focus(), 80);
 }
@@ -730,10 +765,6 @@ function closeEditModal() {
   editingId = null;
 }
 
-function closeEdit(ev) {
-  if (ev.target === document.getElementById('editOverlay')) closeEditModal();
-}
-
 function saveEdit() {
   const text = document.getElementById('editTextarea').value.trim();
   if (!text) { toast('文字を入力してください'); return; }
@@ -745,7 +776,7 @@ function saveEdit() {
   toast('変更を保存しました ✓');
 }
 
-// ── DELETE ──
+// ── MOVE TO TRASH ──
 let deletingId = null;
 
 function del(id) {
@@ -753,23 +784,94 @@ function del(id) {
   document.getElementById('delOverlay').classList.add('open');
 }
 
-function closeDelModal(ev) {
-  if (ev && ev.target !== document.getElementById('delOverlay')) return;
+function closeDelModal() {
   document.getElementById('delOverlay').classList.remove('open');
   deletingId = null;
 }
 
-function confirmDel() {
-  entries = entries.filter(e => e.id !== deletingId);
+function confirmMoveToTrash() {
+  const idx = entries.findIndex(e => e.id === deletingId);
+  if (idx !== -1) {
+    const [e] = entries.splice(idx, 1);
+    e.deletedAt = new Date().toISOString();
+    trash.unshift(e);
+  }
   persist();
-  document.getElementById('delOverlay').classList.remove('open');
-  deletingId = null;
+  closeDelModal();
   render();
-  toast('削除しました');
+  toast('ゴミ箱に移動しました 🗑️');
 }
 
+// ── RESTORE FROM TRASH ──
+function restore(id) {
+  const idx = trash.findIndex(e => e.id === id);
+  if (idx !== -1) {
+    const [e] = trash.splice(idx, 1);
+    delete e.deletedAt;
+    entries.unshift(e);
+  }
+  persist();
+  render();
+  toast('記録を戻しました ✓');
+}
+
+// ── PERMANENT DELETE ──
+let permDelId = null;
+
+function permDel(id) {
+  permDelId = id;
+  document.getElementById('permDelOverlay').classList.add('open');
+}
+
+function closePermDel() {
+  document.getElementById('permDelOverlay').classList.remove('open');
+  permDelId = null;
+}
+
+function confirmPermDel() {
+  trash = trash.filter(e => e.id !== permDelId);
+  persist();
+  closePermDel();
+  render();
+  toast('完全に削除しました');
+}
+
+// ── EMPTY TRASH ──
+function openEmptyTrash() {
+  if (!trash.length) { toast('ゴミ箱は空です'); return; }
+  document.getElementById('emptyTrashOverlay').classList.add('open');
+}
+
+function closeEmptyTrash() {
+  document.getElementById('emptyTrashOverlay').classList.remove('open');
+}
+
+function confirmEmptyTrash() {
+  trash = [];
+  persist();
+  closeEmptyTrash();
+  render();
+  toast('ゴミ箱を空にしました');
+}
+
+// ── OVERLAY CLICK ──
+function overlayClick(ev, id, closeFn) {
+  if (ev.target === document.getElementById(id)) closeFn();
+}
+
+// ── RENDER ──
 function render() {
-  const q = (document.querySelector('.search-box').value || '').toLowerCase();
+  // Trash badge
+  const tb = document.getElementById('trashBadge');
+  if (trash.length) { tb.textContent = trash.length; tb.classList.add('visible'); }
+  else              { tb.classList.remove('visible'); }
+
+  if (curView === 'entries') renderEntries();
+  else                        renderTrash();
+}
+
+function renderEntries() {
+  const q = (document.getElementById('searchBox').value || '').toLowerCase();
   let list = [...entries];
   if (curFilter !== 'all') list = list.filter(e => e.type === curFilter);
   if (q) list = list.filter(e => e.text.toLowerCase().includes(q));
@@ -793,15 +895,15 @@ function render() {
     const d = new Date(e.date);
     const ds = d.toLocaleDateString('ja-JP', { month:'numeric', day:'numeric' }) + ' ' +
                d.toLocaleTimeString('ja-JP', { hour:'2-digit', minute:'2-digit' });
-    const txt = e.text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    const edited = e.edited ? `<span style="font-size:0.58rem;color:var(--ink-ghost);margin-left:4px;">編集済</span>` : '';
+    const txt    = e.text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const edited = e.edited ? `<span style="font-size:0.58rem;color:var(--ink-ghost);margin-left:2px;">編集済</span>` : '';
     return `<div class="entry ${t.cls}">
       <div class="entry-top">
         <span class="badge">${t.label}</span>
         <div class="entry-meta">
           <span class="entry-date">${ds}</span>${edited}
-          <button class="edit-btn" onclick="openEdit(${e.id})" title="編集">✏️</button>
-          <button class="del-btn" onclick="del(${e.id})" title="削除">✕</button>
+          <button class="icon-btn" onclick="openEdit(${e.id})" title="編集">✏️</button>
+          <button class="icon-btn" onclick="del(${e.id})" title="ゴミ箱へ">🗑️</button>
         </div>
       </div>
       <div class="entry-text">${txt}</div>
@@ -809,12 +911,46 @@ function render() {
   }).join('');
 }
 
+function renderTrash() {
+  const ti = document.getElementById('trashInfo');
+  ti.textContent = trash.length ? `${trash.length} 件がゴミ箱にあります` : 'ゴミ箱は空です';
+
+  const el = document.getElementById('feedList');
+  if (!trash.length) {
+    el.innerHTML = `<div class="empty">
+      <span class="empty-icon">🗑️</span>
+      <div class="empty-text">ゴミ箱は空です</div>
+    </div>`;
+    return;
+  }
+
+  el.innerHTML = trash.map(e => {
+    const t  = TAG[e.type] || TAG.idea;
+    const dd = new Date(e.deletedAt);
+    const ds = dd.toLocaleDateString('ja-JP', { month:'numeric', day:'numeric' }) + ' ' +
+               dd.toLocaleTimeString('ja-JP', { hour:'2-digit', minute:'2-digit' });
+    const txt = e.text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return `<div class="entry trashed">
+      <div class="entry-top">
+        <span class="badge">${t.label}</span>
+        <div class="entry-meta">
+          <button class="icon-btn restore"   onclick="restore(${e.id})"  title="元に戻す">↩️ 戻す</button>
+          <button class="icon-btn perma-del" onclick="permDel(${e.id})"  title="完全に削除">✕</button>
+        </div>
+      </div>
+      <div class="entry-text">${txt}</div>
+      <div class="deleted-date">🗑️ ${ds} に削除</div>
+    </div>`;
+  }).join('');
+}
+
+// ── TOAST ──
 function toast(msg) {
   const el = document.getElementById('toast');
   el.textContent = msg;
   el.classList.add('show');
   clearTimeout(el._t);
-  el._t = setTimeout(() => el.classList.remove('show'), 2000);
+  el._t = setTimeout(() => el.classList.remove('show'), 2500);
 }
 
 load();
