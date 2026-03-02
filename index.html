@@ -365,6 +365,167 @@ body {
 .empty-icon { font-size: 2.2rem; display: block; opacity: 0.45; margin-bottom: 4px; }
 .empty-text { font-size: 0.83rem; font-family: 'Noto Serif JP', serif; }
 
+/* Edit / Delete buttons on entry */
+.edit-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink-ghost);
+  font-size: 0.72rem;
+  padding: 1px 3px;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s;
+}
+.entry:hover .edit-btn { opacity: 1; }
+.edit-btn:hover { color: var(--gold); }
+
+/* Modal overlay */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(44,36,24,0.45);
+  z-index: 500;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
+}
+.modal-overlay.open { display: flex; }
+
+.modal {
+  background: var(--paper);
+  border-radius: 14px;
+  padding: 28px 28px 22px;
+  width: min(560px, 92vw);
+  box-shadow: 0 20px 60px rgba(44,36,24,0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: modalIn 0.2s ease;
+}
+
+@keyframes modalIn {
+  from { opacity:0; transform: scale(0.96) translateY(8px); }
+  to   { opacity:1; transform: none; }
+}
+
+.modal-title {
+  font-family: 'Zen Antique Soft', serif;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  color: var(--ink);
+  border-bottom: 1px solid var(--paper3);
+  padding-bottom: 10px;
+}
+
+.modal-tag-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.modal-tag {
+  padding: 7px 4px;
+  border-radius: 7px;
+  border: 1.5px solid var(--paper3);
+  font-size: 0.65rem;
+  cursor: pointer;
+  background: var(--paper2);
+  font-family: inherit;
+  color: var(--ink-mid);
+  transition: all 0.15s;
+  text-align: center;
+}
+
+.modal-tag[data-t="case"].on   { background: var(--case-bg); border-color: var(--case); color: var(--case); font-weight: 500; }
+.modal-tag[data-t="idea"].on   { background: var(--idea-bg); border-color: var(--idea); color: var(--idea); font-weight: 500; }
+.modal-tag[data-t="vision"].on { background: var(--vision-bg); border-color: var(--vision); color: var(--vision); font-weight: 500; }
+.modal-tag[data-t="fb"].on     { background: var(--fb-bg); border-color: var(--fb); color: var(--fb); font-weight: 500; }
+
+.modal-textarea {
+  width: 100%;
+  border: 1.5px solid var(--paper3);
+  border-radius: var(--radius);
+  background: white;
+  padding: 14px;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.92rem;
+  line-height: 1.85;
+  color: var(--ink);
+  resize: vertical;
+  outline: none;
+  min-height: 160px;
+  transition: border-color 0.2s;
+  background-image: repeating-linear-gradient(transparent, transparent 29px, rgba(184,131,42,0.08) 30px);
+  background-attachment: local;
+}
+.modal-textarea:focus { border-color: var(--gold); }
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.btn-cancel {
+  padding: 10px 22px;
+  border: 1.5px solid var(--paper3);
+  border-radius: 20px;
+  background: none;
+  font-family: inherit;
+  font-size: 0.8rem;
+  color: var(--ink-mid);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-cancel:hover { border-color: var(--ink-mid); color: var(--ink); }
+
+.btn-save-edit {
+  padding: 10px 26px;
+  border: none;
+  border-radius: 20px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  transition: all 0.15s;
+}
+.btn-save-edit:hover { background: var(--gold); }
+
+/* Delete confirm modal */
+.del-modal {
+  background: var(--paper);
+  border-radius: 14px;
+  padding: 28px;
+  width: min(380px, 90vw);
+  box-shadow: 0 20px 60px rgba(44,36,24,0.25);
+  text-align: center;
+  animation: modalIn 0.2s ease;
+}
+
+.del-modal-icon { font-size: 2rem; margin-bottom: 10px; }
+.del-modal-title { font-family: 'Zen Antique Soft', serif; font-size: 1rem; margin-bottom: 8px; letter-spacing: 0.08em; }
+.del-modal-sub { font-size: 0.78rem; color: var(--ink-faint); line-height: 1.7; margin-bottom: 20px; }
+
+.del-modal-actions { display: flex; gap: 8px; justify-content: center; }
+
+.btn-del-confirm {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 20px;
+  background: var(--red);
+  color: white;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn-del-confirm:hover { opacity: 0.85; }
+
 /* Toast */
 .toast {
   position: fixed;
@@ -452,6 +613,37 @@ body {
   </div>
 </div>
 
+<!-- Edit Modal -->
+<div class="modal-overlay" id="editOverlay" onclick="closeEdit(event)">
+  <div class="modal">
+    <div class="modal-title">✏️　記録を編集する</div>
+    <div class="modal-tag-row">
+      <button class="modal-tag" data-t="case"   onclick="selModalTag(this)">🩺 症例</button>
+      <button class="modal-tag" data-t="idea"   onclick="selModalTag(this)">💡 アイデア</button>
+      <button class="modal-tag" data-t="vision" onclick="selModalTag(this)">🌏 ビジョン</button>
+      <button class="modal-tag" data-t="fb"     onclick="selModalTag(this)">💬 患者の声</button>
+    </div>
+    <textarea class="modal-textarea" id="editTextarea" rows="7"></textarea>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeEditModal()">キャンセル</button>
+      <button class="btn-save-edit" onclick="saveEdit()">変更を保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirm Modal -->
+<div class="modal-overlay" id="delOverlay" onclick="closeDelModal(event)">
+  <div class="del-modal">
+    <div class="del-modal-icon">🗑️</div>
+    <div class="del-modal-title">この記録を削除しますか？</div>
+    <div class="del-modal-sub">削除した記録は元に戻せません。</div>
+    <div class="del-modal-actions">
+      <button class="btn-cancel" onclick="closeDelModal()">キャンセル</button>
+      <button class="btn-del-confirm" onclick="confirmDel()">削除する</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -510,11 +702,70 @@ function setFilter(btn) {
   render();
 }
 
-function del(id) {
-  if (!confirm('この記録を削除しますか？')) return;
-  entries = entries.filter(e => e.id !== id);
+// ── EDIT ──
+let editingId = null;
+let editModalTag = 'case';
+
+function openEdit(id) {
+  const e = entries.find(e => e.id === id);
+  if (!e) return;
+  editingId = id;
+  editModalTag = e.type;
+  document.getElementById('editTextarea').value = e.text;
+  document.querySelectorAll('.modal-tag').forEach(b => {
+    b.classList.toggle('on', b.dataset.t === e.type);
+  });
+  document.getElementById('editOverlay').classList.add('open');
+  setTimeout(() => document.getElementById('editTextarea').focus(), 80);
+}
+
+function selModalTag(btn) {
+  document.querySelectorAll('.modal-tag').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  editModalTag = btn.dataset.t;
+}
+
+function closeEditModal() {
+  document.getElementById('editOverlay').classList.remove('open');
+  editingId = null;
+}
+
+function closeEdit(ev) {
+  if (ev.target === document.getElementById('editOverlay')) closeEditModal();
+}
+
+function saveEdit() {
+  const text = document.getElementById('editTextarea').value.trim();
+  if (!text) { toast('文字を入力してください'); return; }
+  const e = entries.find(e => e.id === editingId);
+  if (e) { e.text = text; e.type = editModalTag; e.edited = new Date().toISOString(); }
   persist();
+  closeEditModal();
   render();
+  toast('変更を保存しました ✓');
+}
+
+// ── DELETE ──
+let deletingId = null;
+
+function del(id) {
+  deletingId = id;
+  document.getElementById('delOverlay').classList.add('open');
+}
+
+function closeDelModal(ev) {
+  if (ev && ev.target !== document.getElementById('delOverlay')) return;
+  document.getElementById('delOverlay').classList.remove('open');
+  deletingId = null;
+}
+
+function confirmDel() {
+  entries = entries.filter(e => e.id !== deletingId);
+  persist();
+  document.getElementById('delOverlay').classList.remove('open');
+  deletingId = null;
+  render();
+  toast('削除しました');
 }
 
 function render() {
@@ -543,12 +794,14 @@ function render() {
     const ds = d.toLocaleDateString('ja-JP', { month:'numeric', day:'numeric' }) + ' ' +
                d.toLocaleTimeString('ja-JP', { hour:'2-digit', minute:'2-digit' });
     const txt = e.text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const edited = e.edited ? `<span style="font-size:0.58rem;color:var(--ink-ghost);margin-left:4px;">編集済</span>` : '';
     return `<div class="entry ${t.cls}">
       <div class="entry-top">
         <span class="badge">${t.label}</span>
         <div class="entry-meta">
-          <span class="entry-date">${ds}</span>
-          <button class="del-btn" onclick="del(${e.id})">✕</button>
+          <span class="entry-date">${ds}</span>${edited}
+          <button class="edit-btn" onclick="openEdit(${e.id})" title="編集">✏️</button>
+          <button class="del-btn" onclick="del(${e.id})" title="削除">✕</button>
         </div>
       </div>
       <div class="entry-text">${txt}</div>
