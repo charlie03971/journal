@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>治療家ジャーナル</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Zen+Antique+Soft&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper:      #f7f2e9;
+  --paper2:     #efe9da;
+  --paper3:     #e0d8cc;
+  --ink:        #2c2418;
+  --ink-mid:    #5a4e3e;
+  --ink-faint:  #a89880;
+  --ink-ghost:  #cfc3b0;
+  --gold:       #b8832a;
+  --gold-light: #e4b86a;
+  --red:        #c0392b;
+  --case:       #2e7d52;
+  --case-bg:    #eaf4ee;
+  --idea:       #1a5fa0;
+  --idea-bg:    #e8f0fa;
+  --vision:     #6b3fa0;
+  --vision-bg:  #f0eaf8;
+  --fb:         #b85c1a;
+  --fb-bg:      #faf0e8;
+  --sidebar-w:  340px;
+  --radius:     10px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--paper2);
+  color: var(--ink);
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── LEFT: WRITE PANEL ── */
+.write-panel {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: var(--paper);
+  border-right: 1px solid var(--paper3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 2px 0 20px rgba(44,36,24,0.07);
+  position: relative;
+  z-index: 2;
+}
+
+.panel-head {
+  padding: 22px 22px 14px;
+  border-bottom: 1px solid var(--paper3);
+}
+
+.logo {
+  font-family: 'Zen Antique Soft', serif;
+  font-size: 1.2rem;
+  color: var(--ink);
+  letter-spacing: 0.14em;
+}
+
+.logo-en {
+  font-size: 0.58rem;
+  letter-spacing: 0.24em;
+  color: var(--ink-faint);
+  font-weight: 300;
+  margin-top: 4px;
+}
+
+.today-date {
+  font-size: 0.68rem;
+  color: var(--gold);
+  margin-top: 10px;
+  letter-spacing: 0.05em;
+  font-weight: 300;
+}
+
+.tag-row {
+  padding: 14px 18px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+
+.tag-btn {
+  padding: 9px 6px;
+  border-radius: 8px;
+  border: 1.5px solid var(--paper3);
+  font-size: 0.7rem;
+  cursor: pointer;
+  background: var(--paper2);
+  font-family: inherit;
+  color: var(--ink-mid);
+  transition: all 0.15s;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.tag-btn[data-t="case"].on   { background: var(--case-bg); border-color: var(--case); color: var(--case); font-weight: 500; }
+.tag-btn[data-t="idea"].on   { background: var(--idea-bg); border-color: var(--idea); color: var(--idea); font-weight: 500; }
+.tag-btn[data-t="vision"].on { background: var(--vision-bg); border-color: var(--vision); color: var(--vision); font-weight: 500; }
+.tag-btn[data-t="fb"].on     { background: var(--fb-bg); border-color: var(--fb); color: var(--fb); font-weight: 500; }
+
+.memo-wrap {
+  flex: 1;
+  padding: 14px 18px 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.memo-area {
+  flex: 1;
+  width: 100%;
+  border: 1.5px solid var(--paper3);
+  border-radius: var(--radius);
+  background: white;
+  padding: 16px;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.95rem;
+  line-height: 1.9;
+  color: var(--ink);
+  resize: none;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background-image: repeating-linear-gradient(transparent, transparent 29px, rgba(184,131,42,0.08) 30px);
+  background-attachment: local;
+}
+
+.memo-area:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(184,131,42,0.1);
+}
+
+.memo-area::placeholder { color: var(--ink-ghost); font-style: italic; font-size: 0.88rem; }
+
+.save-zone {
+  padding: 12px 18px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.char-count {
+  font-size: 0.65rem;
+  color: var(--ink-ghost);
+}
+
+.save-btn {
+  padding: 11px 30px;
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  border-radius: 24px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  transition: all 0.15s;
+}
+
+.save-btn:hover { background: var(--gold); color: white; }
+.save-btn:active { transform: scale(0.97); }
+
+.shortcut-hint {
+  text-align: center;
+  font-size: 0.6rem;
+  color: var(--ink-ghost);
+  padding-bottom: 10px;
+  letter-spacing: 0.05em;
+}
+
+/* ── RIGHT: FEED PANEL ── */
+.feed-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--paper2);
+}
+
+.feed-head {
+  padding: 16px 24px 12px;
+  border-bottom: 1px solid var(--paper3);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  background: var(--paper2);
+}
+
+.search-box {
+  flex: 1;
+  min-width: 120px;
+  padding: 9px 16px;
+  border: 1.5px solid var(--paper3);
+  border-radius: 20px;
+  font-family: inherit;
+  font-size: 0.8rem;
+  background: white;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.search-box:focus { border-color: var(--gold); }
+.search-box::placeholder { color: var(--ink-ghost); }
+
+.chips {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  padding: 5px 12px;
+  border-radius: 16px;
+  border: 1px solid var(--ink-ghost);
+  font-size: 0.67rem;
+  cursor: pointer;
+  background: none;
+  font-family: inherit;
+  color: var(--ink-mid);
+  transition: all 0.15s;
+  letter-spacing: 0.03em;
+}
+
+.chip.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+/* Stats */
+.stats-row {
+  display: flex;
+  border-bottom: 1px solid var(--paper3);
+  background: white;
+}
+
+.stat {
+  flex: 1;
+  padding: 10px 6px;
+  text-align: center;
+  border-right: 1px solid var(--paper3);
+}
+.stat:last-child { border-right: none; }
+
+.stat-num {
+  font-family: 'Zen Antique Soft', serif;
+  font-size: 1.5rem;
+  color: var(--gold);
+  display: block;
+  line-height: 1.1;
+}
+
+.stat-lbl {
+  font-size: 0.58rem;
+  color: var(--ink-faint);
+  letter-spacing: 0.08em;
+  margin-top: 2px;
+}
+
+/* Feed list */
+.feed-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 22px 22px;
+}
+
+.feed-list::-webkit-scrollbar { width: 4px; }
+.feed-list::-webkit-scrollbar-thumb { background: var(--ink-ghost); border-radius: 2px; }
+
+/* Entry */
+.entry {
+  background: white;
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 9px;
+  border-left: 3.5px solid var(--ink-ghost);
+  position: relative;
+  transition: box-shadow 0.2s;
+  animation: fadeUp 0.2s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(5px); }
+  to   { opacity:1; transform: none; }
+}
+
+.entry:hover { box-shadow: 0 3px 14px rgba(44,36,24,0.09); }
+
+.entry.case   { border-left-color: var(--case); }
+.entry.idea   { border-left-color: var(--idea); }
+.entry.vision { border-left-color: var(--vision); }
+.entry.fb     { border-left-color: var(--fb); }
+
+.entry-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.badge {
+  font-size: 0.6rem;
+  padding: 2px 9px;
+  border-radius: 10px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.entry.case   .badge { background: var(--case-bg); color: var(--case); }
+.entry.idea   .badge { background: var(--idea-bg); color: var(--idea); }
+.entry.vision .badge { background: var(--vision-bg); color: var(--vision); }
+.entry.fb     .badge { background: var(--fb-bg); color: var(--fb); }
+
+.entry-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.entry-date {
+  font-size: 0.6rem;
+  color: var(--ink-ghost);
+}
+
+.del-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink-ghost);
+  font-size: 0.72rem;
+  padding: 1px 3px;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s;
+}
+.entry:hover .del-btn { opacity: 1; }
+.del-btn:hover { color: var(--red); }
+
+.entry-text {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.87rem;
+  line-height: 1.88;
+  color: var(--ink);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Empty */
+.empty {
+  text-align: center;
+  padding: 60px 32px;
+  color: var(--ink-faint);
+  line-height: 2.8;
+}
+.empty-icon { font-size: 2.2rem; display: block; opacity: 0.45; margin-bottom: 4px; }
+.empty-text { font-size: 0.83rem; font-family: 'Noto Serif JP', serif; }
+
+/* Toast */
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  background: var(--ink);
+  color: var(--paper);
+  padding: 9px 22px;
+  border-radius: 20px;
+  font-size: 0.76rem;
+  letter-spacing: 0.07em;
+  opacity: 0;
+  transition: all 0.22s;
+  pointer-events: none;
+  z-index: 999;
+  border: 1px solid var(--gold-light);
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Mobile */
+@media (max-width: 680px) {
+  body, .app { height: auto; overflow: auto; }
+  .app { flex-direction: column; }
+  .write-panel { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--paper3); }
+  .memo-area { min-height: 120px; flex: none; }
+  .feed-panel { overflow: visible; }
+  .feed-list { overflow: visible; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- LEFT: WRITE -->
+  <div class="write-panel">
+    <div class="panel-head">
+      <div class="logo">治療家ジャーナル</div>
+      <div class="logo-en">THERAPIST JOURNAL</div>
+      <div class="today-date" id="todayDate"></div>
+    </div>
+
+    <div class="tag-row">
+      <button class="tag-btn on" data-t="case"   onclick="selTag(this)">🩺 症例・治療</button>
+      <button class="tag-btn"    data-t="idea"   onclick="selTag(this)">💡 アイデア</button>
+      <button class="tag-btn"    data-t="vision" onclick="selTag(this)">🌏 ビジョン</button>
+      <button class="tag-btn"    data-t="fb"     onclick="selTag(this)">💬 患者の声</button>
+    </div>
+
+    <div class="memo-wrap">
+      <textarea class="memo-area" id="memoArea"
+        placeholder="今この瞬間の気づきを書く。&#10;&#10;治療中の発見、患者の言葉、&#10;アイデア、ビジョン、何でも。"
+        oninput="countChars()"
+        onkeydown="handleKey(event)"></textarea>
+    </div>
+
+    <div class="save-zone">
+      <span class="char-count" id="charCount">0文字</span>
+      <button class="save-btn" onclick="saveEntry()">保存する</button>
+    </div>
+    <div class="shortcut-hint">⌘ + Enter でも保存できます</div>
+  </div>
+
+  <!-- RIGHT: FEED -->
+  <div class="feed-panel">
+    <div class="feed-head">
+      <input class="search-box" type="search" placeholder="🔍 記録を検索..." oninput="render()">
+      <div class="chips">
+        <button class="chip on" data-f="all"    onclick="setFilter(this)">すべて</button>
+        <button class="chip"    data-f="case"   onclick="setFilter(this)">症例</button>
+        <button class="chip"    data-f="idea"   onclick="setFilter(this)">アイデア</button>
+        <button class="chip"    data-f="vision" onclick="setFilter(this)">ビジョン</button>
+        <button class="chip"    data-f="fb"     onclick="setFilter(this)">患者の声</button>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat"><span class="stat-num" id="sAll">0</span><div class="stat-lbl">総記録数</div></div>
+      <div class="stat"><span class="stat-num" id="sCase">0</span><div class="stat-lbl">症例</div></div>
+      <div class="stat"><span class="stat-num" id="sIdea">0</span><div class="stat-lbl">アイデア</div></div>
+      <div class="stat"><span class="stat-num" id="sDays">0</span><div class="stat-lbl">記録日数</div></div>
+    </div>
+
+    <div class="feed-list" id="feedList"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const TAG = {
+  case:   { label: '症例・治療', cls: 'case' },
+  idea:   { label: 'アイデア',   cls: 'idea' },
+  vision: { label: 'ビジョン',   cls: 'vision' },
+  fb:     { label: '患者の声',   cls: 'fb' },
+};
+
+let entries = [];
+let curTag = 'case';
+let curFilter = 'all';
+
+function load()    { try { entries = JSON.parse(localStorage.getItem('trj4') || '[]'); } catch { entries = []; } }
+function persist() { try { localStorage.setItem('trj4', JSON.stringify(entries)); } catch {} }
+
+function setDate() {
+  const d = new Date();
+  document.getElementById('todayDate').textContent =
+    d.toLocaleDateString('ja-JP', { year:'numeric', month:'long', day:'numeric', weekday:'short' }) +
+    '　' + d.toLocaleTimeString('ja-JP', { hour:'2-digit', minute:'2-digit' });
+}
+setDate();
+setInterval(setDate, 30000);
+
+function selTag(btn) {
+  document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  curTag = btn.dataset.t;
+}
+
+function countChars() {
+  document.getElementById('charCount').textContent = document.getElementById('memoArea').value.length + '文字';
+}
+
+function handleKey(e) {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); saveEntry(); }
+}
+
+function saveEntry() {
+  const text = document.getElementById('memoArea').value.trim();
+  if (!text) { toast('文字を入力してください'); return; }
+  entries.unshift({ id: Date.now(), type: curTag, text, date: new Date().toISOString() });
+  persist();
+  document.getElementById('memoArea').value = '';
+  countChars();
+  render();
+  toast('保存しました ✓');
+}
+
+function setFilter(btn) {
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+  btn.classList.add('on');
+  curFilter = btn.dataset.f;
+  render();
+}
+
+function del(id) {
+  if (!confirm('この記録を削除しますか？')) return;
+  entries = entries.filter(e => e.id !== id);
+  persist();
+  render();
+}
+
+function render() {
+  const q = (document.querySelector('.search-box').value || '').toLowerCase();
+  let list = [...entries];
+  if (curFilter !== 'all') list = list.filter(e => e.type === curFilter);
+  if (q) list = list.filter(e => e.text.toLowerCase().includes(q));
+
+  document.getElementById('sAll').textContent  = entries.length;
+  document.getElementById('sCase').textContent = entries.filter(e => e.type==='case').length;
+  document.getElementById('sIdea').textContent = entries.filter(e => e.type==='idea').length;
+  document.getElementById('sDays').textContent = new Set(entries.map(e => e.date.split('T')[0])).size;
+
+  const el = document.getElementById('feedList');
+  if (!list.length) {
+    el.innerHTML = `<div class="empty">
+      <span class="empty-icon">📖</span>
+      <div class="empty-text">${q ? '該当する記録が見つかりません' : '左のメモ欄から最初の記録を残しましょう'}</div>
+    </div>`;
+    return;
+  }
+
+  el.innerHTML = list.map(e => {
+    const t = TAG[e.type] || TAG.idea;
+    const d = new Date(e.date);
+    const ds = d.toLocaleDateString('ja-JP', { month:'numeric', day:'numeric' }) + ' ' +
+               d.toLocaleTimeString('ja-JP', { hour:'2-digit', minute:'2-digit' });
+    const txt = e.text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    return `<div class="entry ${t.cls}">
+      <div class="entry-top">
+        <span class="badge">${t.label}</span>
+        <div class="entry-meta">
+          <span class="entry-date">${ds}</span>
+          <button class="del-btn" onclick="del(${e.id})">✕</button>
+        </div>
+      </div>
+      <div class="entry-text">${txt}</div>
+    </div>`;
+  }).join('');
+}
+
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 2000);
+}
+
+load();
+render();
+</script>
+</body>
+</html>
